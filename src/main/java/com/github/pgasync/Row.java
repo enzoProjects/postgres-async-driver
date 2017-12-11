@@ -16,14 +16,14 @@ package com.github.pgasync;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * Row in a queryRows result set. A row consist of 0-n columns of a single type.
  * Column values can be accessed with a 0-based index or column label.
- * 
+ *
  * @author Antti Laisi
  */
 public interface Row {
@@ -64,17 +64,17 @@ public interface Row {
 
     Double getDouble(String column);
 
-    Date getDate(int index);
+    LocalDate getDate(int index);
 
-    Date getDate(String column);
+    LocalDate getDate(String column);
 
-    Time getTime(int index);
+    LocalTime getTime(int index);
 
-    Time getTime(String column);
+    LocalTime getTime(String column);
 
-    Timestamp getTimestamp(int index);
+    LocalDateTime getTimestamp(int index);
 
-    Timestamp getTimestamp(String column);
+    LocalDateTime getTimestamp(String column);
 
     byte[] getBytes(int index);
 

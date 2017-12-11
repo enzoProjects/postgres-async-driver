@@ -16,10 +16,7 @@ package com.github.pgasync.impl;
 
 import static com.github.pgasync.impl.message.RowDescription.ColumnDescription;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -87,6 +84,7 @@ public class PgConnection implements Connection {
 
     @Override
     public Observable<Row> queryRows(String sql, Object... params) {
+        System.out.println(String.format("sql %s - params %s", sql, Arrays.toString(params)));
         return sendQuery(sql, params)
                 .lift(toRow(dataConverter));
     }

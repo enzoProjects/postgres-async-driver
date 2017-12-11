@@ -21,9 +21,9 @@ import com.github.pgasync.impl.message.DataRow;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.Map;
 
@@ -147,35 +147,35 @@ public class PgRow implements Row {
     }
 
     @Override
-    public Date getDate(int index) {
+    public LocalDate getDate(int index) {
         return dataConverter.toDate(pgColumns[index].type, data.getValue(index));
     }
 
     @Override
-    public Date getDate(String column) {
+    public LocalDate getDate(String column) {
         PgColumn pgColumn = getColumn(column);
         return dataConverter.toDate(pgColumn.type, data.getValue(pgColumn.index));
     }
 
     @Override
-    public Time getTime(int index) {
+    public LocalTime getTime(int index) {
         return dataConverter.toTime(pgColumns[index].type, data.getValue(index));
     }
 
     @Override
-    public Time getTime(String column) {
+    public LocalTime getTime(String column) {
         PgColumn pgColumn = getColumn(column);
         return dataConverter.toTime(pgColumn.type, data.getValue(pgColumn.index));
     }
 
     @Override
-    public Timestamp getTimestamp(String column) {
+    public LocalDateTime getTimestamp(String column) {
         PgColumn pgColumn = getColumn(column);
         return dataConverter.toTimestamp(pgColumn.type, data.getValue(pgColumn.index));
     }
 
     @Override
-    public Timestamp getTimestamp(int index) {
+    public LocalDateTime getTimestamp(int index) {
         return dataConverter.toTimestamp(pgColumns[index].type, data.getValue(index));
     }
 

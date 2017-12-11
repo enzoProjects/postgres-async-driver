@@ -3,9 +3,6 @@ package com.github.pgasync.impl.conversion;
 import com.github.pgasync.SqlException;
 import com.github.pgasync.impl.Oid;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -17,8 +14,7 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_TIME;
 
 /**
  * @author Antti Laisi
- *
- * TODO: Add support for Java 8 temporal types.
+ * <p>
  */
 enum TemporalConversions {
     ;
@@ -43,13 +39,13 @@ enum TemporalConversions {
             .appendOffset("+HH:mm", "")
             .toFormatter();
 
-    static Date toDate(Oid oid, byte[] value) {
+    static LocalDate toDate(Oid oid, byte[] value) {
         switch (oid) {
             case UNSPECIFIED: // fallthrough
             case DATE:
                 String date = new String(value, UTF_8);
                 try {
-                    return Date.valueOf(LocalDate.parse(date, ISO_LOCAL_DATE));
+                    return LocalDate.parse(date, ISO_LOCAL_DATE);
                 } catch (DateTimeParseException e) {
                     throw new SqlException("Invalid date: " + date);
                 }
@@ -58,15 +54,15 @@ enum TemporalConversions {
         }
     }
 
-    static Time toTime(Oid oid, byte[] value) {
+    static LocalTime toTime(Oid oid, byte[] value) {
         String time = new String(value, UTF_8);
         try {
             switch (oid) {
                 case UNSPECIFIED: // fallthrough
                 case TIME:
-                    return Time.valueOf(LocalTime.parse(time, ISO_LOCAL_TIME));
+                    return LocalTime.parse(time, ISO_LOCAL_TIME);
                 case TIMETZ:
-                    return Time.valueOf(OffsetTime.parse(time, TIMEZ_FORMAT).toLocalTime());
+                    return OffsetTime.parse(time, TIMEZ_FORMAT).toLocalTime();
                 default:
                     throw new SqlException("Unsupported conversion " + oid.name() + " -> Time");
             }
@@ -75,15 +71,15 @@ enum TemporalConversions {
         }
     }
 
-    static Timestamp toTimestamp(Oid oid, byte[] value) {
+    static LocalDateTime toTimestamp(Oid oid, byte[] value) {
         String time = new String(value, UTF_8);
         try {
             switch (oid) {
                 case UNSPECIFIED: // fallthrough
                 case TIMESTAMP:
-                    return Timestamp.valueOf(LocalDateTime.parse(time, TIMESTAMP_FORMAT));
+                    return LocalDateTime.parse(time, TIMESTAMP_FORMAT);
                 case TIMESTAMPTZ:
-                    return Timestamp.valueOf(OffsetDateTime.parse(time, TIMESTAMPZ_FORMAT).toLocalDateTime());
+                    return OffsetDateTime.parse(time, TIMESTAMPZ_FORMAT).toLocalDateTime();
                 default:
                     throw new SqlException("Unsupported conversion " + oid.name() + " -> Time");
             }
@@ -92,15 +88,15 @@ enum TemporalConversions {
         }
     }
 
-    static byte[] fromTime(Time time) {
-        return ISO_LOCAL_TIME.format(time.toLocalTime()).getBytes(UTF_8);
+    static byte[] fromTime(LocalTime time) {
+        return ISO_LOCAL_TIME.format(time).getBytes(UTF_8);
     }
 
-    static byte[] fromDate(Date date) {
-        return ISO_LOCAL_DATE.format(date.toLocalDate()).getBytes(UTF_8);
+    static byte[] fromDate(LocalDate date) {
+        return ISO_LOCAL_DATE.format(date).getBytes(UTF_8);
     }
 
-    static byte[] fromTimestamp(Timestamp ts) {
-        return TIMESTAMP_FORMAT.format(ts.toLocalDateTime()).getBytes(UTF_8);
+    static byte[] fromTimestamp(LocalDateTime ts) {
+        return TIMESTAMP_FORMAT.format(ts).getBytes(UTF_8);
     }
 }

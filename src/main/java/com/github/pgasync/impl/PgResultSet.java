@@ -43,7 +43,7 @@ public class PgResultSet implements ResultSet {
 
     @Override
     public Iterator<Row> iterator() {
-        return rows != null ? rows.iterator() : Collections.<Row> emptyIterator();
+        return rows != null ? rows.iterator() : Collections.emptyIterator();
     }
 
     @Override

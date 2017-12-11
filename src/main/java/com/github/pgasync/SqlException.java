@@ -17,7 +17,7 @@ package com.github.pgasync;
 /**
  * Backend or client error. If the error is sent by backend, SQLSTATE error code
  * is available.
- * 
+ *
  * @author Antti Laisi
  */
 public class SqlException extends RuntimeException {
@@ -30,12 +30,14 @@ public class SqlException extends RuntimeException {
         super(level + ": SQLSTATE=" + code + ", MESSAGE=" + message);
         this.code = code;
     }
-    public SqlException(String message) {
-        super(message);
+
+    public SqlException(String message, Throwable cause) {
+        super(message, cause);
         this.code = null;
     }
-    public SqlException(Throwable cause) {
-        super(cause);
+
+    public SqlException(String message) {
+        super(message);
         this.code = null;
     }
 
